@@ -12,7 +12,8 @@ import twitter4j.conf.ConfigurationBuilder;
 
 public class Model {
 	
-
+//teste
+	
 	
 	public static void main(String[] args) throws TwitterException {
 		
@@ -36,6 +37,7 @@ public class Model {
 	
 	
 	private static AccessToken loadAccessToken(){
+		
 		String token = "55240367-jTHlEZAnZEcezmHo6CcCshjYTeBslpn33cMQdZzYV";
 		String tokenSecret = "pju9ZFNTfsrSx8UDEx1OPKMNRF2d0AUSpadamgcLIDrsr";
 		return new AccessToken(token, tokenSecret);

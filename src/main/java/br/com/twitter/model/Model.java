@@ -2,6 +2,10 @@ package br.com.twitter.model;
 
 
 
+import java.util.List;
+
+import twitter4j.Query;
+import twitter4j.QueryResult;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -28,8 +32,20 @@ public class Model {
 		Twitter twitter = factory.getInstance();
 		AccessToken accessToken = loadAccessToken();
 		twitter.setOAuthAccessToken(accessToken);
-		Status status = twitter.updateStatus("Olá Twitter!");
-		System.out.println("Tweet postado com sucesso! [" + status.getText() + "].");
+		//Status status = twitter.updateStatus("Ola Twitter!");
+
+		
+		 Query query = new Query("source: " + "java");  
+	      QueryResult result = twitter.search(query); 
+	      List<Status> tweets = result.getTweets();
+	      for (Status status2 : tweets) {
+	    	  
+			System.out.println(status2.getText()+" "+ status2.getUser().getName()+" "+status2);
+		}
+
+            
+		
+		
 	    
 	
 	    
@@ -42,6 +58,14 @@ public class Model {
 		String tokenSecret = "pju9ZFNTfsrSx8UDEx1OPKMNRF2d0AUSpadamgcLIDrsr";
 		return new AccessToken(token, tokenSecret);
 		}
-
+	
+	  
+	/*   public static List<Twitter> buscar(String busca) throws TwitterException {  
+		   Twitter twitter = new Twitter();  
+	      Query query = new Query("source: " + busca);  
+	      QueryResult result = twitter.search(query);  
+	      return result.getTweets();  
+	   }  
+*/
 
 }

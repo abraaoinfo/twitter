@@ -40,8 +40,8 @@ public class Connection {
 		 	
 		ConfigurationBuilder builder = new ConfigurationBuilder();
 			
-		builder.setOAuthConsumerKey( prop.getProperty("oauth.consumerKey"));   //"I2H1rHhQJIvSoVK5jXd2331Fa" 
-		builder.setOAuthConsumerSecret(prop.getProperty("oauth.consumerSecret") );  //"7kEvYuCtIqyX0SjZSSU9pOrKAdDqerG9QgsnsSjRvrOzhN3h8p"
+		builder.setOAuthConsumerKey( prop.getProperty("oauth.consumerKey"));   
+		builder.setOAuthConsumerSecret(prop.getProperty("oauth.consumerSecret") ); 
 		Configuration configuration = builder.build();	
 		TwitterFactory factory = new TwitterFactory(configuration);
 		Twitter twitter = factory.getInstance();
@@ -54,8 +54,8 @@ public class Connection {
 	
 	    private  AccessToken loadAccessToken(){
 		
-		String token = prop.getProperty("oauth.accessToken");       //"55240367-jTHlEZAnZEcezmHo6CcCshjYTeBslpn33cMQdZzYV";
-		String tokenSecret =  prop.getProperty("oauth.accessTokenSecret");  // "pju9ZFNTfsrSx8UDEx1OPKMNRF2d0AUSpadamgcLIDrsr";
+		String token = prop.getProperty("oauth.accessToken");       
+		String tokenSecret =  prop.getProperty("oauth.accessTokenSecret");  
 		return new AccessToken(token, tokenSecret);
 		}
 	

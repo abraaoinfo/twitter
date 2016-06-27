@@ -15,6 +15,7 @@ import twitter4j.QueryResult;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
+import twitter4j.User;
 
 public class TwitterSearchLastweek {
 	
@@ -38,13 +39,12 @@ public class TwitterSearchLastweek {
 	
 	
 	public static void main(String[] args) throws TwitterException, IOException {
-
-	   List<Status> twitters = TwitterSearchLastweek.getInstance("#java8").twittersOrderNameUserLastweek();
-	   for (Status status : twitters) {
-		   
-		   System.out.println( "Data twitter:"+ status.getCreatedAt() +" name  "+ status.getUser().getName());
 		
-     	}
+		 TwitterSearchLastweek instance = TwitterSearchLastweek.getInstance("#java8");
+
+		 instance.twittersOrderNameUserLastweek();
+		 instance.twittersOrderDateLastweek();
+	
 	
 	}
 	
@@ -66,6 +66,8 @@ public class TwitterSearchLastweek {
 	            tweetsAll.addAll(tweets);
 	         
 		 }
+		  
+		  Collections.unmodifiableCollection(tweetsAll);
 		    
 		setStatus(tweetsAll);
 	
@@ -80,21 +82,46 @@ public class TwitterSearchLastweek {
 	
 		
 	
-	public  int amountTwitterLastweek(String hastTag) {
+	public  int amountTwitterLastweek() {	
 	  return status.size();
 	}
 	
 	
-	public  List<Status> twittersOrderDateLastweek(String hastTag) {       
+	public  List<Status> twittersOrderDateLastweek() {   
+		
+        for (Status st : status) {			
+			System.out.println("Data :"+st.getCreatedAt());		
+		}
 	      return status;
 	}
 	
 	public List<Status> twittersOrderNameUserLastweek(){
-		Collections.sort(status, new OrderNameComparator());		
-		return status;
+		List<Status> sts = new ArrayList<Status>(status);
+		Collections.sort(sts, new OrderNameComparator());		
+		for (Status st : sts) {	
+			System.out.println("Nome e Ultimo Nome :" +returnNomeUltimoNome(st.getUser()));
+			
+		}
+		
+		return sts;
 	}
 	
 	
+	private String returnNomeUltimoNome(User user) {
+		
+		String[] split = user.getName().split(" ");
+		
+		if(split.length >= 3){
+
+			return split[0]+" "+split[split.length -1];
+		}else{
+			return user.getName();
+		}
+	     
+	
+	}
+
+
 	public int  amountRetweetLastweek(){
 		int countRetweet =0;
 		

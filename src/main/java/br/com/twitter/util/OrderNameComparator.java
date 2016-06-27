@@ -1,4 +1,4 @@
-package br.com.twitter.model;
+package br.com.twitter.util;
 
 import java.util.Comparator;
 

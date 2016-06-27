@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 import br.com.twitter.conexao.Connection;
+import br.com.twitter.util.OrderNameComparator;
 import twitter4j.Query;
 import twitter4j.QueryResult;
 import twitter4j.Status;

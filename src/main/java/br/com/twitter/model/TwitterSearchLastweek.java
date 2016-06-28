@@ -42,18 +42,7 @@ public class TwitterSearchLastweek {
 	
 	
 	
-	public static void main(String[] args) throws TwitterException, IOException {
-		
-		 TwitterSearchLastweek instance = TwitterSearchLastweek.getInstance("#java8");
-		 instance.amountTwitterLastweek();
-		 instance.amountRetweetLastweek();
-		 instance.amountFavoriteLastweek();
-	     instance.twittersOrderNameUserLastweek();
-		 instance.twittersOrderDateLastweek();
 
-	
-	}
-	
 	private  void twitterSearchLastweek() throws TwitterException{
 		 Query query = queryUltimaSemana(hastTag);
 		

@@ -3,6 +3,7 @@ package br.com.twitter.model;
 
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,16 +24,19 @@ public class TwitterSearchLastweek {
 	
 	private List<Status> status;
 	
+	private String hastTag;
+	
 	
 	private TwitterSearchLastweek() {
 	}
 	 
 	
-	public static TwitterSearchLastweek getInstance(String hastTag) throws TwitterException {
-		TwitterSearchLastweek twitterSearchOperation = new TwitterSearchLastweek();
-		twitterSearchOperation.setTwitter(Connection.conexaoTwitter());
+	public static TwitterSearchLastweek getInstance(final String hastTag) throws TwitterException {
 		
-		twitterSearchOperation.twitterSearchLastweek(hastTag);
+		TwitterSearchLastweek twitterSearchOperation = new TwitterSearchLastweek();
+		twitterSearchOperation.setTwitter(Connection.conexaoTwitter());	
+		twitterSearchOperation.setHastTag(hastTag);
+		twitterSearchOperation.twitterSearchLastweek();
 		return twitterSearchOperation;
 	}
 	
@@ -41,14 +45,16 @@ public class TwitterSearchLastweek {
 	public static void main(String[] args) throws TwitterException, IOException {
 		
 		 TwitterSearchLastweek instance = TwitterSearchLastweek.getInstance("#java8");
-
-		 instance.twittersOrderNameUserLastweek();
+		 instance.amountTwitterLastweek();
+		 instance.amountRetweetLastweek();
+		 instance.amountFavoriteLastweek();
+	     instance.twittersOrderNameUserLastweek();
 		 instance.twittersOrderDateLastweek();
-	
+
 	
 	}
 	
-	private  void twitterSearchLastweek(String hastTag) throws TwitterException{
+	private  void twitterSearchLastweek() throws TwitterException{
 		 Query query = queryUltimaSemana(hastTag);
 		
 		 List<Status> tweets = new ArrayList<Status>();
@@ -67,8 +73,7 @@ public class TwitterSearchLastweek {
 	         
 		 }
 		  
-		  Collections.unmodifiableCollection(tweetsAll);
-		    
+		  Collections.unmodifiableCollection(tweetsAll);		    
 		setStatus(tweetsAll);
 	
 	}
@@ -83,26 +88,38 @@ public class TwitterSearchLastweek {
 		
 	
 	public  int amountTwitterLastweek() {	
+		
+	  System.out.println("\nQuantidade de twitter com a hastTag "+hastTag+" da ultima semana :"+status.size()+"\n");		
 	  return status.size();
 	}
 	
 	
 	public  List<Status> twittersOrderDateLastweek() {   
-		
-        for (Status st : status) {			
-			System.out.println("Data :"+st.getCreatedAt());		
-		}
+		System.err.println("\n"+"-------------------------------------Twitter Ordenados por Data-----------------------------------------------------------"+"\n" +"\n");
+        SimpleDateFormat fd = new SimpleDateFormat("dd/MM/yyyy");
+		for (Status st : status) {			
+			System.out.println("Data :"+ fd.format(st.getCreatedAt()) +" \nTwitters "+st.getText());	
+			System.out.println("_____________________________________________________________________________________________________");
+		 }
+		  System.err.println("-------------------------------------Fim da lista do twitters Ordenados por Data-----------------------------------------------------------"+"\n" +"\n");
 	      return status;
 	}
 	
 	public List<Status> twittersOrderNameUserLastweek(){
 		List<Status> sts = new ArrayList<Status>(status);
 		Collections.sort(sts, new OrderNameComparator());		
+		System.err.println("-------------------------------------Twitter Ordenados por Nome-----------------------------------------------------------"+"\n" +"\n");
+
 		for (Status st : sts) {	
-			System.out.println("Nome e Ultimo Nome :" +returnNomeUltimoNome(st.getUser()));
+			
+			System.out.println("Nome: "
+		     +returnNomeUltimoNome(st.getUser()) +"\nTwitters : "+st.getText());
+			 System.out.println("_____________________________________________________________________________________________________");
+			 System.out.println("");
 			
 		}
 		
+		 System.err.println("\n"+"------------------------------Fim da Lista dos twitter Ordenados por nome------------------------------------------------------------------"+"\n");
 		return sts;
 	}
 	
@@ -124,20 +141,26 @@ public class TwitterSearchLastweek {
 
 	public int  amountRetweetLastweek(){
 		int countRetweet =0;
-		
+		System.out.println();
 		for (Status st : status) {			
-			countRetweet =+	st.getRetweetCount();			
+			countRetweet += st.getRetweetCount();			
 		}
+		System.out.println("Quantidade de retweet com a hastTag "+hastTag+" da ultima semana: "+countRetweet);
+		System.out.println();
+	
 		
 		return countRetweet;
 	}
 	
 	public int  amountFavoriteLastweek(){
 		int countFavorite =0;
-		
+		System.out.println();
 		for (Status st : status) {			
-			countFavorite =+	st.getFavoriteCount();			
+			countFavorite +=	st.getFavoriteCount();			
 		}
+		System.out.println("Quantidade de favoritos com a hastTag "+hastTag+" da ultima semana: "+countFavorite);
+		
+		System.out.println();
 		
 		return countFavorite;
 	}
@@ -166,6 +189,16 @@ public class TwitterSearchLastweek {
 
 	public void setStatus(List<Status> status) {
 		this.status = status;
+	}
+
+
+	public String getHastTag() {
+		return hastTag;
+	}
+
+
+	public void setHastTag(String hastTag) {
+		this.hastTag = hastTag;
 	}
 
 

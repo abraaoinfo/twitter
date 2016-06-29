@@ -1,8 +1,7 @@
-package br.com.twitter.model;
+package br.com.twitter.core;
 
 
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
